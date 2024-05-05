@@ -1,0 +1,106 @@
+html {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  #{--window-height}: 100vh;
+  height: 100%;
+  min-height: 100%;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Special links to wrap around the closest parent with position: relative */
+a.a--wrap::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: '';
+  background-color: rgba(0, 0, 0, 0);
+  appearance: none;
+}
+
+/* Makes sections full height */
+.min-height-vp {
+  min-height: var(--window-height);
+}
+
+.height-vp {
+  height: var(--window-height);
+}
+
+/* SEO-friendly hidden elements, which should be available for screenreaders or search engines */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+/* Shorthanded for Bootstrap mixins */
+@mixin screen($bpt) {
+  @include media-breakpoint-up($bpt) {
+    @content;
+  }
+}
+
+@mixin screen-max($bpt) {
+  @include media-breakpoint-down($bpt) {
+    @content;
+  }
+}
+
+@mixin screen-only($bpt) {
+  @include media-breakpoint-only($bpt) {
+    @content;
+  }
+}
+
+@mixin screen-from-to($bpt_from, $bpt_to) {
+  @include media-breakpoint-between($bpt_from, $bpt_to) {
+    @content;
+  }
+}
+
+/* Portrait and Landscape screens */
+@mixin screen-pt {
+  @media only screen and (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin screen-ls {
+  @media only screen and (orientation: landscape) {
+    @content;
+  }
+}
+
+/* IE and Edge */
+@mixin ie {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+@mixin edge {
+  @supports (-ms-ime-align: auto) {
+    @content;
+  }
+}

@@ -1,0 +1,93 @@
+{% set bptsMax      = {} %}
+{% set bptsValues   = [] %}
+{% set path = (path is defined and path != '') ? path : '/assets/img/' %}
+
+{% for key, value in breakpoints %}
+    {% set bptsValues = bptsValues|merge([(value)]) %}
+{% endfor %}
+
+{% for key, value in breakpoints %}
+    {% if loop.index == loop.length %}
+        {% set bptsMax = bptsMax|merge({(key): 99999}) %}
+    {% else %}
+        {% set bptsValue = (bptsValues[loop.index]) - 1 %}
+        {% set bptsMax = bptsMax|merge({(key): (bptsValue)})%}
+    {% endif %}
+{% endfor %}
+
+{# figure and figcaption start #}
+{% if figcaption is defined %}<figure>{% endif %}
+
+{% if webp == true or sources is defined %}
+    <picture>
+{% endif %}
+
+    {% if sources is defined and sources.length > 1 %}
+        {# sources for breakpoints #}
+        {% for source in sources %}
+            {% if loop.last == false %}
+                {% if webp == true %}
+                    <source
+                        media="(max-width: {{ attribute(bptsMax, source.bpt) }}px)"
+                        sizes="100vw"
+                        {% if source.width is defined and source.width != '' %}width="{{ source.width }}"{% endif %}
+                        {% if source.height is defined and source.height != '' %}height="{{ source.height }}"{% endif %}
+                        srcset="
+                    {% for w in source.w %}
+                        {{ path }}{{ src }}_{% if source.suffix is defined and source.suffix != '' %}{{ source.suffix }}_{% endif %}{{ w }}.webp {{ w }}w{% if loop.last == false %}, {% endif %}
+                    {% endfor %}
+                "
+                    type="image/webp">
+                {% endif %}
+                <source
+                    media="(max-width: {{ attribute(bptsMax, source.bpt) }}px)"
+                    sizes="100vw"
+                    {% if source.width is defined and source.width != '' %}width="{{ source.width }}"{% endif %}
+                    {% if source.height is defined and source.height != '' %}height="{{ source.height }}"{% endif %}
+                    srcset="
+                    {% for w in source.w %}
+                        {{ path }}{{ src }}_{% if source.suffix is defined and source.suffix != '' %}{{ source.suffix }}_{% endif %}{{ w }}.{{ ext }} {{ w }}w{% if loop.last == false %}, {% endif %}
+                    {% endfor %}
+                ">
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
+    {% if webp == true %}
+        <source
+            {% if sources is defined and sources.length > 0 %}
+                srcset="
+                    {% for w in sources|last.w %}
+                        {{ path }}{{ src }}_{% if sources|last.suffix is defined and sources|last.suffix != '' %}{{ sources|last.suffix }}_{% endif %}{{ w }}.webp {{ w }}w{% if loop.last == false %}, {% endif %}
+                    {% endfor %}
+                "
+            {% else %}
+                srcset="{{ path }}{{ src }}.webp"
+            {% endif %}
+            type="image/webp">
+    {% endif %}
+
+    <img
+        {% if sources is defined and sources.length > 0 %}
+            srcset="
+                {% for w in sources|last.w %}
+                    {{ path }}{{ src }}_{% if sources|last.suffix is defined and sources|last.suffix != '' %}{{ sources|last.suffix }}_{% endif %}{{ w }}.{{ ext }} {{ w }}w{% if loop.last == false %}, {% endif %}
+                {% endfor %}
+                "
+            src="{{ path }}{{ src }}_{{ sources|last.w|last }}.{{ ext }}"
+        {% else %}
+            src="{{ path }}{{ src }}.{{ ext }}"
+        {% endif %}
+        {% if width is defined and width != '' %}width="{{ width }}"{% endif %}
+        {% if height is defined and height != '' %}height="{{ height }}"{% endif %}
+        {% if alt is defined and alt != '' %}alt="{{ alt }}"{% endif %}
+        {% if title is defined and title != '' %}title="{{ title }}"{% endif %}
+        class="{{ class }}" {{- attributes }}>
+
+{% if webp == true or sources is defined %}
+    </picture>
+{% endif %}
+
+{# figure and figcaption end #}
+{% if figcaption is defined %}<figcaption>{{ figcaption }}</figcaption></figure>{% endif %}

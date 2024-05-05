@@ -1,0 +1,5 @@
+/* Import SCSS from libs folder */
+//@import "libs/**/*";
+
+/* Import SCSS OR CSS (!) from vendors (get rid of .css in case you need that, e.g. "./node_modules/@splidejs/splide/css/splide-core.min") */
+//@import "./node_modules/**/*";
