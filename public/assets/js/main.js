@@ -3,4 +3,8 @@
 
     LmnzrCore.init();
 
+    {
+        LmnzrLayoutHelpers.init();
+    }
+
 })();
