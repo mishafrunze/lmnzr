@@ -104,3 +104,9 @@ a.a--wrap::after {
     @content;
   }
 }
+
+@mixin hover {
+  :root:not(.is-touch) &:hover {
+    @content;
+  }
+}
