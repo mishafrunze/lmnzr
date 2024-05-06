@@ -11,6 +11,7 @@ const LmnzrLayoutHelpers = function () {
         gridFluid: false,
         gridColor: [255, 0, 128],
         gridOpacity: 1,
+        gridStyle: 'fill',
         breakpoints: {
             xs: 0,
             sm: 576,
@@ -133,14 +134,20 @@ const LmnzrLayoutHelpers = function () {
 
         /* add guides */
 
+        const colStyle = (OPTIONS.gridStyle === 'fill') ?
+            'background-color: ' + _arrayToRGBA(0.25) + ';' :
+            'background-color: ' + _arrayToRGBA(0.1) + '; outline: 1px solid ' + _arrayToRGBA(0.25) + ';';
+
         const colItem = document.createElement('div');
         colItem.classList.add('col-1');
-        colItem.innerHTML = '<div class="guides-col" style="background-color: ' + _arrayToRGBA(0.25) + '"></div>';
+        colItem.innerHTML = '<div class="guides-col" style="' + colStyle + '"></div>';
 
         for (let i = 1; i <= OPTIONS.gridColumns; i++)
         {
             let colItemClone = colItem.cloneNode(true);
+
             colItemClone.querySelector('.guides-col').innerHTML = '<p style="color: ' + _arrayToRGBA(0.5) + '">' + i + '</p><p style="color: ' + _arrayToRGBA(0.5) + '">' + i + '</p>';
+
             layoutHelpers.querySelector('.layout-helpers__guides .row').append(colItemClone);
         }
 
@@ -181,7 +188,7 @@ const LmnzrLayoutHelpers = function () {
         layoutHelpers.querySelector('.layout-helpers__breakpoints').append(bptItem);
 
         window.addEventListener('load', function() {
-            document.body.prepend(layoutHelpers);
+           document.body.prepend(layoutHelpers);
             _toggleLayoutHelpers();
         });
     }
@@ -260,6 +267,17 @@ const LmnzrLayoutHelpers = function () {
                     }
 
                     OPTIONS.gridOpacity = options.gridOpacity;
+                }
+
+                if (key === 'gridStyle')
+                {
+                    if (options.gridStyle !== 'fill' && options.gridStyle !== 'stroke')
+                    {
+                        _showMessage('Option "gridStyle" should be either "fill" or "stroke"', 'error')
+                        return false;
+                    }
+
+                    OPTIONS.gridStyle = options.gridStyle;
                 }
 
                 if (key === 'breakpoints')
