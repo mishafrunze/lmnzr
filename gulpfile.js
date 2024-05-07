@@ -31,7 +31,6 @@ import dotenv           from 'rollup-plugin-dotenv'
 
 const sass = gulpSass(dartSass);
 
-
 const PATHS = {
     BUILD:  './build',
     PUBLIC: './public',
@@ -267,7 +266,7 @@ function cssDev() {
 
 function cssLibs() {
 
-    return src(`${PATHS.SRC}/bundles/css/libs/**/*.{css,scss,sass}`)
+    return src(`${PATHS.SRC}/bundles/css/libs/**/*.{css,scss,sass}`, { allowEmpty: true })
         .pipe(gulpif('**/*.{scss,sass}', sassGlob()))
         .pipe(gulpif('**/*.{scss,sass}', sass.sync().on('error', sass.logError)))
         .pipe(gulpif('**/*.{scss,sass}', autoprefixer(['last 10 versions', '> 1%', 'IE 11'], { cascade: true })))
@@ -298,7 +297,7 @@ function jsDev() {
 
 function jsLibs() {
 
-    return src(`${PATHS.SRC}/bundles/js/libs/**/*.js`)
+    return src(`${PATHS.SRC}/bundles/js/libs/**/*.js`, { allowEmpty: true })
         .pipe(concat('libs.js'))
         .pipe(dest(`${PATHS.PUBLIC}/assets/js/`))
 
@@ -357,7 +356,7 @@ function watchFiles() {
     /* watch scss - browser stream sets inside tasks */
     watch(`${PATHS.SRC}/bundles/css/dev/**/*.{css,scss,sass}`, cssDev);
     watch(`${PATHS.SRC}/bundles/css/libs/**/*.{css,scss,sass}`, cssLibs);
-    watch([`${PATHS.SRC}/bundles/css/*.scss`, `${PATHS.SRC}/{components,layouts,pages}/**/*.scss`], cssMain);
+    watch([`${PATHS.SRC}/bundles/css/*.scss`, `${PATHS.SRC}/bundles/css/imports/*.scss`, `${PATHS.SRC}/{components,layouts,pages}/**/*.scss`], cssMain);
 
     /* watch js */
     watch(`${PATHS.SRC}/bundles/js/dev/**/*.js`, series(jsDev, jsMain, browserSyncReload));

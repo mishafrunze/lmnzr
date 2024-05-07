@@ -1,8 +1,18 @@
-//@import "import-defaults";
-@import "import-bootstrap";
-@import "import-core";
-@import "import-custom";
+/*
 
-@import "../../components/**/*";
+FILES FROM IMPORTS FOLDER WON'T UPDATE
+
+_import-boostrap.scss
+_import-defaults.scss
+_import-libs.scss
+
+*/
+
+@import "imports/*";
+
+@import "LmnzrCore-helpers";
+@import "LmnzrCore-mixins";
+
 @import "../../layouts/*";
 @import "../../pages/*";
+@import "../../components/**/*";

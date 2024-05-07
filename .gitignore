@@ -1,6 +1,14 @@
+build/
+
+public/assets/css/dev/
+public/assets/css/libs.css
+public/assets/css/main.css
+public/assets/icons/
+public/assets/js/dev/
+public/assets/js/libs.js
+public/assets/js/main.js
+public/*.html
+
 .idea/
 .DS_Store
-
 node_modules/
-
-todo.md

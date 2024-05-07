@@ -1,0 +1,47 @@
+/* Links to wrap around the closest parent with position: relative */
+
+a.a--wrap::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: '';
+  background-color: rgba(0, 0, 0, 0);
+  appearance: none;
+}
+
+
+/* Makes sections full height upon custom properties set in LmnzrCore.js */
+
+.min-height-vp {
+  min-height: var(--window-height);
+}
+
+.height-vp {
+  height: var(--window-height);
+}
+
+.min-height-vp-live {
+  min-height: var(--window-height-live);
+}
+
+.height-vp-live {
+  height: var(--window-height-live);
+}
+
+
+/* SEO-friendly hidden elements, which should be available for screenreaders or search engines */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}

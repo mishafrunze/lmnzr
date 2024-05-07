@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Page Example</title>
+    <title>{{ title }}</title>
 
     <!-- Removing everything below is on your own risk -->
     <!-- inject:css -->
@@ -17,21 +17,9 @@
 
 </head>
 <body>
-<div class="wrapper">
 
-
-    <div class="min-height-vp d-flex justify-content-center align-items-center">
-        <div class="container">
-            <div class="row">
-                <div class="col col-lg-8 offset-lg-2 d-flex justify-content-center">
-                    <h1>Template Page Example</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</div>
+{% block content %}
+{% endblock %}
 
 <!-- Removing everything below is on your own risk -->
 <!-- inject:js -->
