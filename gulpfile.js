@@ -53,7 +53,7 @@ const setConfigJSON = (done) => {
 }
 
 
-const copyAssetsFromBuild = async function() {
+export async function copyAssetsFromBuild () {
 
     const config = configJSON;
 

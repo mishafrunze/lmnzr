@@ -1,13 +1,6 @@
-/*
-+ files to update should be store somewhere?
-+ compare versioning
-- then run npm update
-- git hook version?
- */
-
 import cliProgress          from 'cli-progress';
 import fetch                from 'node-fetch';
-import { exec, execSync }         from 'child_process';
+import { exec, execSync }   from 'child_process';
 import fse                  from 'fs-extra'
 import path                 from 'path'
 
@@ -28,12 +21,11 @@ export function LmnzrUpdate (done) {
     getUpdater().then((response) => {
 
         //const versionUpdate = response.version;
-        const versionUpdate = '1.1.0';
 
         const packageJSON       = (fse.pathExistsSync('./package.json')) ? fse.readJsonSync('./package.json') : false;
         const versionCurrent    = (packageJSON) ? packageJSON.version : false;
 
-        if (versionCurrent && versionCurrent < versionUpdate) {
+        if (versionCurrent/* && versionCurrent < versionUpdate*/) {
 
             console.log('---\nStart updating...\n---');
 
