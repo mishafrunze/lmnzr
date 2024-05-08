@@ -372,3 +372,7 @@ export const dev        = series(setEnvDevelopment, srcToPublic, browserSyncRun,
 export const build      = series(setEnvProduction, srcToPublic, cleanBuild, parallel(buildHTML, buildCSS, buildJS, buildStatic));
 export const copyAssets = copyAssetsFromBuild;
 copyAssets.displayName  = 'copy-assets';
+
+import { LmnzrUpdate } from "./LmnzrUpdate.js";
+
+export const update     = LmnzrUpdate;

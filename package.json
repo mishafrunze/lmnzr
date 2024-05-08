@@ -14,6 +14,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "browser-sync": "^3.0.2",
+    "cli-progress": "^3.12.0",
     "del": "^7.1.0",
     "esm": "^3.2.25",
     "fs-extra": "^11.2.0",
@@ -37,6 +38,7 @@
     "gulp-svgmin": "^4.1.0",
     "gulp-twig": "^1.2.0",
     "gulp-uglify": "^3.0.2",
+    "node-fetch": "^3.3.2",
     "path": "^0.12.7",
     "rollup": "^4.14.2",
     "rollup-plugin-dotenv": "^0.5.1",
