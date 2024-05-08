@@ -133,8 +133,8 @@ function buildHTML() {
             '<script src="/assets/js/main.min.js"></script>',
         ))
         .pipe(gulpif(configJSON['assetsProductionPath'] !== '', replace(
-            /(href|src|url)(=?\(?"|'|.{0,3})\/?assets/g,
-            `$1$2${configJSON['assetsProductionPath']}/assets`)))
+            /(\.{0,3}\/)?assets\//g,
+            `${configJSON['assetsProductionPath']}/assets/`)))
         .pipe(htmlMin({ collapseWhitespace: true, conservativeCollapse: true, removeComments: true }))
         .pipe(prettyHtml({ indent_size: 4, end_with_newline: true }))
         .pipe(dest(PATHS.BUILD))
@@ -150,8 +150,8 @@ function buildCSS() {
         .pipe(csso())
         .pipe(concat('main.min.css'))
         .pipe(gulpif(configJSON['assetsProductionPath'] !== '', replace(
-            /url\(("|')?.{0,3}\/?assets/gm,
-            `url($1${configJSON['assetsProductionPath']}/assets`)))
+            /(\.{0,3}\/)?assets\//g,
+            `${configJSON['assetsProductionPath']}/assets/`)))
         .pipe(dest(`${PATHS.BUILD}/assets/css/`))
 
 }
