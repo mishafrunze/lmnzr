@@ -29,7 +29,9 @@
                 {% if webp == true %}
                     <source
                         media="(max-width: {{ attribute(bptsMax, source.bpt) }}px)"
-                        sizes="100vw"
+                        {% if source.sizes is defined and source.sizes != '' %}
+                            sizes="{{ source.sizes }}"
+                        {% endif %}
                         {% if source.width is defined and source.width != '' %}width="{{ source.width }}"{% endif %}
                         {% if source.height is defined and source.height != '' %}height="{{ source.height }}"{% endif %}
                         srcset="
@@ -41,7 +43,9 @@
                 {% endif %}
                 <source
                     media="(max-width: {{ attribute(bptsMax, source.bpt) }}px)"
-                    sizes="100vw"
+                    {% if source.sizes is defined and source.sizes != '' %}
+                        sizes="{{ source.sizes }}"
+                    {% endif %}
                     {% if source.width is defined and source.width != '' %}width="{{ source.width }}"{% endif %}
                     {% if source.height is defined and source.height != '' %}height="{{ source.height }}"{% endif %}
                     srcset="
@@ -62,6 +66,9 @@
                         {{ path }}{{ src }}_{% if sources|last.suffix is defined and sources|last.suffix != '' %}{{ sources|last.suffix }}_{% endif %}{{ w }}.webp {{ w }}w{% if loop.last == false %}, {% endif %}
                     {% endfor %}
                 "
+                {% if sources|last.sizes is defined and sources|last.sizes != '' %}
+                    sizes="{{ sources|last.sizes }}"
+                {% endif %}
             {% else %}
                 srcset="{{ path }}{{ src }}.webp"
             {% endif %}
@@ -75,6 +82,9 @@
                     {{ path }}{{ src }}_{% if sources|last.suffix is defined and sources|last.suffix != '' %}{{ sources|last.suffix }}_{% endif %}{{ w }}.{{ ext }} {{ w }}w{% if loop.last == false %}, {% endif %}
                 {% endfor %}
                 "
+            {% if sources|last.sizes is defined and sources|last.sizes != '' %}
+                sizes="{{ sources|last.sizes }}"
+            {% endif %}
             src="{{ path }}{{ src }}_{{ sources|last.w|last }}.{{ ext }}"
         {% else %}
             src="{{ path }}{{ src }}.{{ ext }}"

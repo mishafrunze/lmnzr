@@ -1,6 +1,6 @@
 ```twig
 
-{% include '/components/__lmnzr/images/images.twig' with {
+{% include '/components/lmnzr/images/images.twig' with {
     path: '',
     src: 'cover-ot',
     ext: 'jpeg',
@@ -10,8 +10,8 @@
     class: 'img-fluid',
     attributes: 'data-bs-target="#target"',
     sources: [
-        { bpt: 'sm', suffix: 'mobile', w: [ 600, 1100 ], width: 1100, height: 1550 },
-        { bpt: '', suffix: '', w: [ 1200, 1800, 2400 ], width: '', height: '' },
+        { bpt: 'sm', suffix: 'mobile', w: [ 600, 1100 ], sizes: '100vw', width: 1100, height: 1550 },
+        { bpt: '', suffix: '', w: [ 1200, 1800, 2400 ], sizes: '50vw', width: '', height: '' },
     ]
 } %}
 

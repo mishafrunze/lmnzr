@@ -11,7 +11,7 @@ The twig template generates `<span class="icon ratio ratio-1x1" aria-hidden="tru
 ### Required settings
 
 ```twig
-{% include '/components/__lmnzr/icons/icons.twig' with { icon: 'icon-name' } only %}
+{% include '/components/lmnzr/icons/icons.twig' with { icon: 'icon-name' } only %}
 ```
 
 Parameters:
@@ -33,7 +33,7 @@ Output:
 ### Optional settings
 
 ```twig
-{% include '/components/__lmnzr/icons/icons.twig' with {
+{% include '/components/lmnzr/icons/icons.twig' with {
     icon: 'birthday',
     class: 'danger',
     attributes: 'data-attribute-name="attribute-value"' } only %}
