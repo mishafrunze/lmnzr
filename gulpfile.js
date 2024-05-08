@@ -11,7 +11,6 @@ import inject           from 'gulp-inject'
 import htmlMin          from 'gulp-html-minifier-terser'
 import plumber          from 'gulp-plumber'
 import prettyHtml       from 'gulp-pretty-html'
-import rename           from 'gulp-rename'
 import replace          from 'gulp-replace'
 import gulpSass         from 'gulp-sass'
 import sassGlob         from 'gulp-sass-glob'
@@ -23,7 +22,7 @@ import uglify           from 'gulp-uglify'
 import browserSync      from 'browser-sync'
 import { deleteSync }   from 'del'
 import * as dartSass    from 'sass'
-import fs               from 'fs-extra'
+import fse              from 'fs-extra'
 import path             from 'path'
 import { rollup }       from 'rollup'
 import nodeResolve      from 'rollup-plugin-node-resolve'
@@ -45,10 +44,10 @@ const setEnvDevelopment = async () => {
     return process.env.NODE_ENV = 'development';
 }
 
-let configJSON = JSON.parse(fs.readFileSync('./config.json'));
+let configJSON = (fse.pathExists('./config.json')) ? fse.readJsonSync('./config.json') : false;
 
 const setConfigJSON = (done) => {
-    configJSON = JSON.parse(fs.readFileSync('./config.json'));
+    configJSON = (fse.pathExists('./config.json')) ? fse.readJsonSync('./config.json') : false;
     done();
 }
 
@@ -69,7 +68,7 @@ export async function copyAssetsFromBuild () {
         return false;
     }
 
-    if (!config['assetsCopyPath'].match(/[^\0]+/) || !fs.pathExistsSync(config['assetsCopyPath']))
+    if (!config['assetsCopyPath'].match(/[^\0]+/) || !fse.pathExistsSync(config['assetsCopyPath']))
     {
         console.log('Path to copy assets is not correct or does not exist');
     }
@@ -208,12 +207,13 @@ function htmlPagesCompile() {
         .pipe(data((file) => {
 
             let pageJSON = `${PATHS.SRC}/pages/${path.basename(file.path)}.json`;
-            if (fs.pathExistsSync(pageJSON))
+            if (fse.pathExistsSync(pageJSON))
             {
-                pageJSON = JSON.parse(fs.readFileSync(pageJSON));
-                if (pageJSON)
-                {
+                try {
+                    pageJSON = fse.readJsonSync(pageJSON);
                     return Object.assign(configJSON, pageJSON);
+                } catch (err) {
+                    console.log(err);
                 }
             }
 
@@ -370,9 +370,7 @@ function watchFiles() {
 
 export const dev        = series(setEnvDevelopment, srcToPublic, browserSyncRun, watchFiles);
 export const build      = series(setEnvProduction, srcToPublic, cleanBuild, parallel(buildHTML, buildCSS, buildJS, buildStatic));
-export const copyAssets = copyAssetsFromBuild;
-copyAssets.displayName  = 'copy-assets';
+export const cpa        = copyAssetsFromBuild;
 
 import { LmnzrUpdate } from "./LmnzrUpdate.js";
-
 export const update     = LmnzrUpdate;
