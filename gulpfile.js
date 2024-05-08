@@ -356,7 +356,7 @@ function watchFiles() {
     /* watch scss - browser stream sets inside tasks */
     watch(`${PATHS.SRC}/bundles/css/dev/**/*.{css,scss,sass}`, cssDev);
     watch(`${PATHS.SRC}/bundles/css/libs/**/*.{css,scss,sass}`, cssLibs);
-    watch([`${PATHS.SRC}/bundles/css/*.scss`, `${PATHS.SRC}/bundles/css/imports/*.scss`, `${PATHS.SRC}/{components,layouts,pages}/**/*.scss`], cssMain);
+    watch([`${PATHS.SRC}/bundles/css/*.scss`, `${PATHS.SRC}/bundles/css/custom/*.scss`, `${PATHS.SRC}/{components,layouts,pages}/**/*.scss`], cssMain);
 
     /* watch js */
     watch(`${PATHS.SRC}/bundles/js/dev/**/*.js`, series(jsDev, jsMain, browserSyncReload));
