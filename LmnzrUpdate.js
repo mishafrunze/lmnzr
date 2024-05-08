@@ -3,6 +3,7 @@ import fetch                from 'node-fetch';
 import { exec, execSync }   from 'child_process';
 import fse                  from 'fs-extra'
 import path                 from 'path'
+import { Buffer } from 'node:buffer'
 
 async function getUpdater() {
     try {
@@ -37,7 +38,7 @@ export function LmnzrUpdate (done) {
             console.log('---\nStart downloading files...\n---');
             /* Clone repo */
             exec('git clone https://github.com/mishafrunze/lmnzr.git .tmp', {}, () => {
-                console.log('---\nFiles downloaded!...\n---');
+                console.log('\x1b[32m', '---\nFiles downloaded!...\n---');
 
                 if (typeof response.files === 'object' && response.files.length > 0)
                 {
@@ -45,15 +46,29 @@ export function LmnzrUpdate (done) {
 
                     for (const file of response.files)
                     {
+                        try
+                        {
 
-                        try {
-                            fse.moveSync(
-                                `./.tmp/${file}`,
-                                `./${file}`,
-                                { 'overwrite': true }
-                            );
-                            console.log('Updated ' + file);
-                        } catch (e) {
+                            let fileUpdate = Buffer.from(fse.readFileSync(`./.tmp/${file}`));
+                            let fileCurrent= Buffer.from(fse.readFileSync(`./${file}`));
+
+                            if (!fileUpdate.equals(fileCurrent))
+                            {
+                                fse.moveSync(
+                                    `./.tmp/${file}`,
+                                    `./${file}`,
+                                    { 'overwrite': true }
+                                );
+                                console.log('\x1b[32m', 'Updated ' + file);
+                            }
+                            else
+                            {
+                                console.log('\x1b[36m', 'No need to update ' + file);
+                            }
+
+                        }
+                        catch (e)
+                        {
                             console.log(e);
                         }
 
@@ -61,18 +76,18 @@ export function LmnzrUpdate (done) {
 
                     fse.removeSync('./.tmp/');
 
-                    console.log('---\nUpdating successfully finished!\nRun `npm i` to update packages and don\'t forget to make a commit of your project!\n---');
+                    console.log('\x1b[32m', '---\nUpdating successfully finished!\nRun `npm i` to update packages and don\'t forget to make a commit of your project!\n---');
                     done();
 
                 }
                 else
                 {
-                    console.log('---\nNo files to update.\n---');
+                    console.log('\x1b[36m', '---\nNo files to update.\n---');
                     done();
                 }
             });
         } else {
-            console.log('---\nNothing to update: you have the latest version of LMNZR in use (' + versionCurrent + ')...\n---');
+            console.log('\x1b[36m', '---\nNothing to update: you have the latest version of LMNZR in use (' + versionCurrent + ')...\n---');
             done();
         }
 
