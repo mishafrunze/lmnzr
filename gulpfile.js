@@ -181,7 +181,7 @@ function buildStatic() {
         `!${PATHS.PUBLIC}/assets/js/dev/**/*.*`,
         `!${PATHS.PUBLIC}/assets/js/libs.js`,
         `!${PATHS.PUBLIC}/assets/js/main.js`,
-        `!${PATHS.PUBLIC}/*.html`])
+        `!${PATHS.PUBLIC}/*.html`], { encoding: false })
         .pipe(dest(PATHS.BUILD));
 
 }
