@@ -1,6 +1,6 @@
 {% set bptsMax      = {} %}
 {% set bptsValues   = [] %}
-{% set path = (path is defined and path != '') ? path : '/assets/img/' %}
+{% set path = (path is defined and path != '') ? path : '/assets/img' %}
 
 {% for key, value in breakpoints %}
     {% set bptsValues = bptsValues|merge([(value)]) %}
