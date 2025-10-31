@@ -256,7 +256,9 @@ function cssDev() {
 
     return src(`${PATHS.SRC}/bundles/css/dev/**/*.{css,scss,sass}`)
         .pipe(gulpif('**/*.{scss,sass}', sassGlob()))
-        .pipe(gulpif('**/*.{scss,sass}', sass.sync().on('error', sass.logError)))
+        .pipe(gulpif('**/*.{scss,sass}', sass.sync({
+            silenceDeprecations: ["import", "color-functions", "global-builtin"],
+        }).on('error', sass.logError)))
         .pipe(gulpif('**/*.{scss,sass}', autoprefixer(['last 10 versions', '> 1%', 'IE 11'], { cascade: true })))
         .pipe(dest(`${PATHS.PUBLIC}/assets/css/dev/`))
         .pipe(gulpif(process.env.NODE_ENV === 'development', browserSync.stream()))
@@ -268,7 +270,9 @@ function cssLibs() {
 
     return src(`${PATHS.SRC}/bundles/css/libs/**/*.{css,scss,sass}`, { allowEmpty: true })
         .pipe(gulpif('**/*.{scss,sass}', sassGlob()))
-        .pipe(gulpif('**/*.{scss,sass}', sass.sync().on('error', sass.logError)))
+        .pipe(gulpif('**/*.{scss,sass}', sass.sync({
+            silenceDeprecations: ["import", "color-functions", "global-builtin"],
+        }).on('error', sass.logError)))
         .pipe(gulpif('**/*.{scss,sass}', autoprefixer(['last 10 versions', '> 1%', 'IE 11'], { cascade: true })))
         .pipe(concat('libs.css'))
         .pipe(dest(`${PATHS.PUBLIC}/assets/css/`))
@@ -281,7 +285,9 @@ function cssMain() {
 
     return src(`${PATHS.SRC}/bundles/css/main.scss`)
         .pipe(sassGlob())
-        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(sass.sync({
+            silenceDeprecations: ["import", "color-functions", "global-builtin"],
+        }).on('error', sass.logError))
         .pipe(autoprefixer(['last 10 versions', '> 1%', 'IE 11'], { cascade: true }))
         .pipe(dest(`${PATHS.PUBLIC}/assets/css/`))
         .pipe(gulpif(process.env.NODE_ENV === 'development', browserSync.stream()))
